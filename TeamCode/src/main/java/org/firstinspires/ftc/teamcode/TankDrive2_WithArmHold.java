@@ -101,12 +101,12 @@ public class TankDrive2_WithArmHold extends OpMode { // Renamed class
 
         // --- Drive Motors ---
         // Arcade Drive (using only left stick)
-        double drive = -gamepad1.left_stick_y; // Forward/Backward
-        double turn = gamepad1.left_stick_x;  // Turn Left/Right
+        double drive = gamepad1.left_stick_y; // Forward/Backward
+        double turn = -gamepad1.left_stick_x;  // Turn Left/Right
 
         // Combine drive and turn for arcade drive.
-        double leftPower = drive + turn;
-        double rightPower = drive - turn;
+        double leftPower = drive - turn;
+        double rightPower = drive + turn;
 
         // Normalize the values so neither exceed +/- 1.0
         double max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
@@ -133,9 +133,9 @@ public class TankDrive2_WithArmHold extends OpMode { // Renamed class
 
                 // Set power based on D-pad input
                 if (dpadUpPressed) {
-                    topMotor.setPower(MANUAL_ARM_POWER);
-                } else { // dpadDownPressed must be true
                     topMotor.setPower(-MANUAL_ARM_POWER);
+                } else { // dpadDownPressed must be true
+                    topMotor.setPower(MANUAL_ARM_POWER);
                 }
             } else {
                 // --- Hold Position ---
@@ -174,11 +174,11 @@ public class TankDrive2_WithArmHold extends OpMode { // Renamed class
 
         // --- Rotate Servo (rotateServo) ---
         if (rotateServo != null) {
-            if (gamepad1.x) {
+            if (gamepad1.b) {
                 rotateServo.setPosition(0.81);
             } else if (gamepad1.y) {
                 rotateServo.setPosition(0.5); // Center position (maybe?)
-            } else if (gamepad1.b) {
+            } else if (gamepad1.x) {
                 rotateServo.setPosition(0.17);
             }
             // Note: Servo will stay at the last commanded position if X/Y/B are not pressed.
