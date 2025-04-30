@@ -30,11 +30,11 @@ public class TankDrive2 extends OpMode {
     @Override
     public void loop() {
         // --- Drive Motors ---
-        double drive = -gamepad1.left_stick_y;
-        double turn = gamepad1.left_stick_x;
+        double drive = gamepad1.left_stick_y;
+        double turn = -gamepad1.left_stick_x;
 
-        double leftPower = drive + turn;
-        double rightPower = drive - turn;
+        double leftPower = drive - turn;
+        double rightPower = drive + turn;
 
         double max = Math.max (Math. abs(leftPower), Math.abs(rightPower));
         if (max > 10){
@@ -49,9 +49,9 @@ public class TankDrive2 extends OpMode {
         double topPower = 0.1; // Default power is 0.1
 
         if (gamepad1.dpad_up) {
-            topPower = 0.4;
-        } else if (gamepad1.dpad_down) {
             topPower = -0.4;
+        } else if (gamepad1.dpad_down) {
+            topPower = 0.4;
         }
         // If neither is pressed, topPower remains 0.1 as set initially
 
@@ -75,11 +75,11 @@ public class TankDrive2 extends OpMode {
 
         double rotatePower = 0.5;
 
-        if(gamepad1.x){
+        if(gamepad1.b){
             rotateServo.setPosition(0.81);
         } else if (gamepad1.y) {
             rotateServo.setPosition(0.5);
-        } else if (gamepad1.b) {
+        } else if (gamepad1.x) {
             rotateServo.setPosition(0.17);
         }
 
