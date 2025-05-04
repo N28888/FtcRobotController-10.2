@@ -10,23 +10,23 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp(name = "TankDrive3_Mecanum", group = "TeleOp4")
 public class TankDrive3_Mecanum extends OpMode {
 
-    private DcMotor leftMotor;
-    private DcMotor rightMotor;
+    private DcMotor leftfrontMotor;
+    private DcMotor rightfrontMotor;
     private DcMotor rightbackMotor;
     private DcMotor leftbackMotor;
 
     @Override
     public void init() {
-        leftMotor = hardwareMap.get(DcMotor.class, "left"); //1
-        rightMotor = hardwareMap.get(DcMotor.class, "right"); //0
+        leftfrontMotor = hardwareMap.get(DcMotor.class, "leftfront"); //1
+        rightfrontMotor = hardwareMap.get(DcMotor.class, "rightfront"); //0
         rightbackMotor = hardwareMap.get(DcMotor.class, "rightback"); //3
         leftbackMotor = hardwareMap.get(DcMotor.class, "leftback"); //2
 
         // ***** 重要: 根据你的齿轮传动和电机实际旋转方向进行设置 *****
         // 下面的设置仅为示例，你需要根据你的测试结果修改
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftfrontMotor.setDirection(DcMotor.Direction.REVERSE);
         leftbackMotor.setDirection(DcMotor.Direction.FORWARD);
-        rightMotor.setDirection(DcMotor.Direction.FORWARD);
+        rightfrontMotor.setDirection(DcMotor.Direction.FORWARD);
         rightbackMotor.setDirection(DcMotor.Direction.REVERSE);
     }
 
@@ -56,9 +56,9 @@ public class TankDrive3_Mecanum extends OpMode {
         }
 
         // 设置电机功率
-        leftMotor.setPower(leftFrontPower);
+        leftfrontMotor.setPower(leftFrontPower);
         leftbackMotor.setPower(leftBackPower);
-        rightMotor.setPower(rightFrontPower);
+        rightfrontMotor.setPower(rightFrontPower);
         rightbackMotor.setPower(rightBackPower);
     }
 }
