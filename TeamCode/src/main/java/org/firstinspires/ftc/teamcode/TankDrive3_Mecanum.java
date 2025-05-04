@@ -23,10 +23,10 @@ public class TankDrive3_Mecanum extends OpMode { // Renamed class
         leftbackMotor = hardwareMap.get(DcMotor.class, "leftback");
         rightbackMotor = hardwareMap.get(DcMotor.class, "rightback");
 
-        leftfrontMotor.setDirection(DcMotor.Direction.REVERSE); // MIGHT need FORWARD
-        leftbackMotor.setDirection(DcMotor.Direction.REVERSE);  // MIGHT need FORWARD
-        rightfrontMotor.setDirection(DcMotor.Direction.FORWARD); // MIGHT need REVERSE
-        rightbackMotor.setDirection(DcMotor.Direction.FORWARD); // MIGHT need REVERSE
+        leftfrontMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftbackMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightfrontMotor.setDirection(DcMotor.Direction.FORWARD);
+        rightbackMotor.setDirection(DcMotor.Direction.FORWARD);
 
         // Set motor behavior when power is zero (BRAKE stops actively, FLOAT coasts)
         leftfrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
