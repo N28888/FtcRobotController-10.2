@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "TankDrive2", group = "TeleOp2")
+@TeleOp(name = "TankDrive2", group = "TeleOp")
 public class TankDrive2 extends OpMode {
 
     private DcMotor leftMotor;

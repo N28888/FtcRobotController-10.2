@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range; // Import Range for clipping power
 
-@TeleOp(name = "TankDrive2_WithArmHold", group = "TeleOp3") // Renamed slightly
+@TeleOp(name = "TankDrive2_WithArmHold", group = "TeleOp2") // Renamed slightly
 public class TankDrive2_WithArmHold extends OpMode { // Renamed class
 
     // Drive Motors
