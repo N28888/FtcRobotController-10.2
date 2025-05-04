@@ -3,62 +3,87 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;// Import DcMotorEx
+// Optional: Use DcMotorEx if you need its extra features like PID control, but DcMotor works fine
+// import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "TankDrive3_Mecanum", group = "TeleOp4")
-public class TankDrive3_Mecanum extends OpMode {
+@TeleOp(name = "TankDrive3_Mecanum", group = "TeleOp3") // Descriptive name.
+public class TankDrive3_Mecanum extends OpMode { // Renamed class
 
     private DcMotor leftfrontMotor;
     private DcMotor rightfrontMotor;
-    private DcMotor rightbackMotor;
     private DcMotor leftbackMotor;
+    private DcMotor rightbackMotor;
+
 
     @Override
     public void init() {
-        leftfrontMotor = hardwareMap.get(DcMotor.class, "leftfront"); //1
-        rightfrontMotor = hardwareMap.get(DcMotor.class, "rightfront"); //0
-        rightbackMotor = hardwareMap.get(DcMotor.class, "rightback"); //3
-        leftbackMotor = hardwareMap.get(DcMotor.class, "leftback"); //2
+        leftfrontMotor = hardwareMap.get(DcMotor.class, "leftfront");
+        rightfrontMotor = hardwareMap.get(DcMotor.class, "rightfront");
+        leftbackMotor = hardwareMap.get(DcMotor.class, "leftback");
+        rightbackMotor = hardwareMap.get(DcMotor.class, "rightback");
 
-        // ***** 重要: 根据你的齿轮传动和电机实际旋转方向进行设置 *****
-        // 下面的设置仅为示例，你需要根据你的测试结果修改
-        leftfrontMotor.setDirection(DcMotor.Direction.REVERSE);
-        leftbackMotor.setDirection(DcMotor.Direction.FORWARD);
-        rightfrontMotor.setDirection(DcMotor.Direction.FORWARD);
-        rightbackMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftfrontMotor.setDirection(DcMotor.Direction.REVERSE); // MIGHT need FORWARD
+        leftbackMotor.setDirection(DcMotor.Direction.REVERSE);  // MIGHT need FORWARD
+        rightfrontMotor.setDirection(DcMotor.Direction.FORWARD); // MIGHT need REVERSE
+        rightbackMotor.setDirection(DcMotor.Direction.FORWARD); // MIGHT need REVERSE
+
+        // Set motor behavior when power is zero (BRAKE stops actively, FLOAT coasts)
+        leftfrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightfrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftbackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightbackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        telemetry.addData("Status", "Initialized");
+        telemetry.addData(">", "Motor Directions MUST be Verified!");
+        telemetry.update();
     }
 
     @Override
     public void loop() {
-        // 读取摇杆输入
-        double y = -gamepad1.left_stick_y; // 前后移动
-        double x = gamepad1.left_stick_x;  // 左右平移
-        double rx = gamepad1.right_stick_x; // 旋转
+        // --- Gamepad Input ---
+        double forward = gamepad1.right_stick_y;
+        double strafe = -gamepad1.right_stick_x;
+        double rotate = -gamepad1.left_stick_x;
 
-        // 计算每个轮子的功率
-        double leftFrontPower = y + x + rx;
-        double leftBackPower = y - x + rx;
-        double rightFrontPower = y - x - rx;
-        double rightBackPower = y + x - rx;
+        // --- Mecanum Drive Calculation ---
+        double leftFrontPower = forward + strafe + rotate;
+        double rightFrontPower = forward - strafe - rotate;
+        double leftBackPower = forward - strafe + rotate;
+        double rightBackPower = forward + strafe - rotate;
 
-        // 归一化，避免功率超过 ±1
-        double max = Math.max(
-                Math.max(Math.abs(leftFrontPower), Math.abs(leftBackPower)),
-                Math.max(Math.abs(rightFrontPower), Math.abs(rightBackPower))
-        );
+        // --- Normalize Motor Powers ---
+        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+        max = Math.max(max, Math.abs(leftBackPower));
+        max = Math.max(max, Math.abs(rightBackPower));
+
         if (max > 1.0) {
             leftFrontPower /= max;
-            leftBackPower /= max;
             rightFrontPower /= max;
+            leftBackPower /= max;
             rightBackPower /= max;
         }
 
-        // 设置电机功率
+        // --- Set Motor Powers ---
         leftfrontMotor.setPower(leftFrontPower);
-        leftbackMotor.setPower(leftBackPower);
         rightfrontMotor.setPower(rightFrontPower);
+        leftbackMotor.setPower(leftBackPower);
         rightbackMotor.setPower(rightBackPower);
+
+        // --- Telemetry ---
+        telemetry.addData("Input Y (Forward)", "%.2f", forward);
+        telemetry.addData("Input X (Strafe)", "%.2f", strafe);
+        telemetry.addData("Input R (Rotate)", "%.2f", rotate);
+        telemetry.addData("---", "---");
+        telemetry.addData("Calculated LF Power", "%.2f", leftFrontPower);
+        telemetry.addData("Calculated RF Power", "%.2f", rightFrontPower);
+        telemetry.addData("Calculated LB Power", "%.2f", leftBackPower);
+        telemetry.addData("Calculated RB Power", "%.2f", rightBackPower);
+        //Display actual power being sent (can differ due to internal limits/control loops)
+        telemetry.addData("Actual LF Power", "%.2f", leftfrontMotor.getPower());
+        telemetry.addData("Actual RF Power", "%.2f", rightfrontMotor.getPower());
+        telemetry.addData("Actual LB Power", "%.2f", leftbackMotor.getPower());
+        telemetry.addData("Actual RB Power", "%.2f", rightbackMotor.getPower());
+        telemetry.update();
     }
 }
