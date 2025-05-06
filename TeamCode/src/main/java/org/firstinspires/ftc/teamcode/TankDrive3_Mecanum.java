@@ -43,14 +43,14 @@ public class TankDrive3_Mecanum extends OpMode { // Renamed class
     public void loop() {
         // --- Gamepad Input ---
         double forward = gamepad1.right_stick_y;
-        double strafe = -gamepad1.right_stick_x;
+        double pan = -gamepad1.right_stick_x;
         double rotate = -gamepad1.left_stick_x;
 
         // --- Mecanum Drive Calculation ---
-        double leftFrontPower = forward + strafe + rotate;
-        double rightFrontPower = forward - strafe - rotate;
-        double leftBackPower = forward - strafe + rotate;
-        double rightBackPower = forward + strafe - rotate;
+        double leftFrontPower = forward + pan + rotate;
+        double rightFrontPower = forward - pan - rotate;
+        double leftBackPower = forward - pan + rotate;
+        double rightBackPower = forward + pan - rotate;
 
         // --- Normalize Motor Powers ---
         double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
@@ -72,7 +72,7 @@ public class TankDrive3_Mecanum extends OpMode { // Renamed class
 
         // --- Telemetry ---
         telemetry.addData("Input Y (Forward)", "%.2f", forward);
-        telemetry.addData("Input X (Strafe)", "%.2f", strafe);
+        telemetry.addData("Input X (Strafe)", "%.2f", pan);
         telemetry.addData("Input R (Rotate)", "%.2f", rotate);
         telemetry.addData("---", "---");
         telemetry.addData("Calculated LF Power", "%.2f", leftFrontPower);
