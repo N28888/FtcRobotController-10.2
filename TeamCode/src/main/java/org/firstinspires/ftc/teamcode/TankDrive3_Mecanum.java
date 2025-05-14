@@ -72,7 +72,7 @@ public class TankDrive3_Mecanum extends OpMode { // Renamed class
 
         // --- Telemetry ---
         telemetry.addData("Input Y (Forward)", "%.2f", forward);
-        telemetry.addData("Input X (Strafe)", "%.2f", pan);
+        telemetry.addData("Input X (Pan)", "%.2f", pan);
         telemetry.addData("Input R (Rotate)", "%.2f", rotate);
         telemetry.addData("---", "---");
         telemetry.addData("Calculated LF Power", "%.2f", leftFrontPower);
