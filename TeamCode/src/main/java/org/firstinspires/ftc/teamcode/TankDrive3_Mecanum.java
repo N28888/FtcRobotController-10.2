@@ -42,9 +42,9 @@ public class TankDrive3_Mecanum extends OpMode { // Renamed class
     @Override
     public void loop() {
         // --- Gamepad Input ---
-        double forward = gamepad1.right_stick_y;
-        double pan = -gamepad1.right_stick_x;
-        double rotate = -gamepad1.left_stick_x;
+        double forward = -gamepad1.right_stick_y;
+        double pan = gamepad1.right_stick_x;
+        double rotate = gamepad1.left_stick_x;
 
         // --- Mecanum Drive Calculation ---
         double leftFrontPower = forward + pan + rotate;
