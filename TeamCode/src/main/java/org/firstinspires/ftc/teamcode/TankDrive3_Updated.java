@@ -128,7 +128,7 @@ public class TankDrive3_Updated extends OpMode {
                 }
             }
         }
-
+        double topServoPosition = 0.49;
         if(gamepad1.x){
             topServo.setPosition(0.81);
         } else if (gamepad1.y) {
