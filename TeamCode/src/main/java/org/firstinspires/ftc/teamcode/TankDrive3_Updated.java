@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+
 
 @TeleOp(name = "TankDrive3_Updated", group = "TeleOp3")
 public class TankDrive3_Updated extends OpMode {
@@ -18,6 +21,8 @@ public class TankDrive3_Updated extends OpMode {
     private DcMotor slideMotor;
     private Servo wheelServo;
     private Servo topServo;
+
+    private IMU imu;
 
     private int armTargetPosition;
     private boolean isHoldingArm = false;
@@ -128,7 +133,7 @@ public class TankDrive3_Updated extends OpMode {
                 }
             }
         }
-        double topServoPosition = 0.49;
+        double topServoPower = 0.5;
         if(gamepad1.x){
             topServo.setPosition(0.81);
         } else if (gamepad1.y) {
